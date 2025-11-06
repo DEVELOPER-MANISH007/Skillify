@@ -17,27 +17,23 @@ const Sidebar = () => {
 
 
   return isEducator && (
-    <div className='md:w-64 w-16 border-r min-h-screen text-base border-gray-500 py-2 flex flex-col'>
+    <aside className='md:w-64 w-20 border-r min-h-screen text-base border-gray-200 bg-white/50 backdrop-blur-sm py-4 flex flex-col'>
       {menuItems.map((item)=>(
         <NavLink
         to={item.path}
         key={item.name}
         end={item.path === "/educator"}
-        className={({isActive}) => `flex items-center justify-center md:justify-start gap-3 md:gap-4 px-2 md:px-4 py-2 md:py-3 text-gray-600 hover:bg-gray-100/90 ${isActive ? ' bg-blue-100 border-r[6px] border-white text-black' : ''}`}
+        className={({isActive}) => `flex items-center justify-center md:justify-start gap-3 md:gap-4 px-3 md:px-5 py-3 md:py-3.5 mx-2 rounded-xl text-gray-600 hover:bg-gray-100/80 transition-all duration-200 ${
+          isActive 
+            ? 'bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-600 text-blue-700 font-semibold shadow-sm' 
+            : 'hover:text-gray-900'
+        }`}
         >
-
-        <img src={item.icon} alt="" className='w-6 h-6 shrink-0'/>
-        <p className='md:block hidden capitalize'>{item.name}</p>
-
+        <img src={item.icon} alt={item.name} className='w-5 h-5 md:w-6 md:h-6 shrink-0'/>
+        <p className='md:block hidden capitalize text-sm font-medium'>{item.name}</p>
         </NavLink>
-
       ))}
-
-
-
-      </div>
-
-
+    </aside>
   )
 }
 

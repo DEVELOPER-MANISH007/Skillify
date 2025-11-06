@@ -15,9 +15,9 @@
     "stripe": "^18.5.0",
     "svix": "^1.42.0"
   },
-  "name": "server",
+  "name": "skillify-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Skillify - Learning Management System Backend",
   "main": "server.js",
   "type":"module",
   "scripts": {

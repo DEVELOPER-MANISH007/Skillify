@@ -7,15 +7,21 @@ const Navbar = () => {
   const { user } = useUser();
 
   return (
-    <div className="flex items-center justify-between px-4 md:px-8 border-b border-gray-500 py-3">
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-4 md:px-8 border-b border-gray-200/50 py-4 bg-white/95 backdrop-blur-md shadow-sm">
       <Link to="/">
-        <img src={assets.logo} alt="Logo" className="w-28 lg:w-32" />
+        <img src={assets.logo} alt="Skillify Logo" className="h-14 md:h-16 lg:h-20 w-auto hover:scale-105 transition-transform duration-300 object-contain" />
       </Link>
-      <div className="flex items-center gap-5 text-gray-500 relative">
-        <p>Hi!{" "} {user?user.fullName:'Developers'}</p>
-        {user? <UserButton/>: <img className="max-w-8 " src={assets.profile_img}/>}
+      <div className="flex items-center gap-4 text-gray-700">
+        <p className="text-sm md:text-base font-medium">
+          Hi! <span className="text-gray-900">{user ? user.fullName : 'Developer'}</span>
+        </p>
+        {user ? (
+          <UserButton />
+        ) : (
+          <img className="w-8 h-8 rounded-full" src={assets.profile_img} alt="Profile" />
+        )}
       </div>
-    </div>
+    </nav>
   );
 };
 

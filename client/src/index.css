@@ -12,11 +12,26 @@
     --leading-default: 21px;
 }
 
+/* Modern Design System */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --dark-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
 
+*{
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Smooth transitions */
+* {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 /* Alias matching Tailwind-style class name */
 .grid-cols-auto{
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .section-height{
@@ -28,10 +43,38 @@
 }
 
 .shadow-custom-card{
-    box-shadow: 0px 4px 15px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05);
 }
-*{
-    font-family: 'Outfit', sans-serif;
+
+.shadow-hover{
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Glassmorphism effect */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Modern gradient backgrounds */
+.gradient-primary {
+    background: var(--primary-gradient);
+}
+
+.gradient-accent {
+    background: var(--accent-gradient);
+}
+
+/* Smooth hover effects */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 @layer base {

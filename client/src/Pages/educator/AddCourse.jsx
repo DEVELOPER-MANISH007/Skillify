@@ -278,14 +278,9 @@ if(data.success){
       ))}
       <div onClick={()=>{handleChapter('add')}} className="flex justify-center items-center bg-blue-100 p-2 rounded-lg cursor-pointer" >+Add Chapter</div>
       {showPopup &&(
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/30 backdrop-blur-md">
           <div 
-            className="bg-white text-gray-700 p-6 rounded-xl shadow-2xl relative w-full max-w-md mx-4 border border-gray-100"
-            style={{
-              position: 'absolute',
-              top: `${Math.min(popupPosition.top, window.innerHeight - 400)}px`,
-              left: `${Math.min(popupPosition.left, window.innerWidth - 300)}px`
-            }}
+            className="bg-white text-gray-700 p-6 rounded-xl shadow-2xl w-full max-w-md mx-4 border border-gray-100 animate-slideUp"
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-800">Add New Lecture</h2>
