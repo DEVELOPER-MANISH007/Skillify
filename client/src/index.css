@@ -13,6 +13,74 @@
 }
 
 
+/* Color tokens for theming */
+:root {
+    --bg: #ffffff;
+    --surface: #f7fafc; /* subtle cards */
+    --text: #0f172a; /* slate-900 */
+    --muted: #64748b; /* slate-500 */
+    --border: #e2e8f0; /* slate-200 */
+    --accent: #2563eb; /* blue-600 */
+}
+
+.dark {
+    --bg: #0b1220;
+    --surface: #0f172a; /* slate-900 */
+    --text: #e5e7eb; /* gray-200 */
+    --muted: #94a3b8; /* slate-400 */
+    --border: #1f2937; /* gray-800 */
+    --accent: #60a5fa; /* blue-400 */
+}
+
+/* Smooth theme transitions */
+html, body, #root {
+    background-color: var(--bg);
+}
+
+* {
+    transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+/* Utilities */
+.u-bg {
+    background-color: var(--bg);
+}
+.u-surface {
+    background-color: var(--surface);
+}
+.u-text {
+    color: var(--text);
+}
+.u-muted {
+    color: var(--muted);
+}
+.u-border {
+    border-color: var(--border);
+}
+.u-accent {
+    color: var(--accent);
+}
+.u-btn-primary {
+    background-color: var(--accent);
+    color: #fff;
+}
+.u-glass {
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.55) 0%,
+        rgba(255,255,255,0.2) 100%
+    );
+    backdrop-filter: blur(8px);
+}
+.dark .u-glass {
+    background: linear-gradient(
+        180deg,
+        rgba(15,23,42,0.55) 0%,
+        rgba(15,23,42,0.2) 100%
+    );
+}
+
+
 
 /* Alias matching Tailwind-style class name */
 .grid-cols-auto{
@@ -95,5 +163,12 @@ html{
 
 .animate-slideUp {
   animation: slideUp 0.3s ease-out;
+}
+
+/* Reveal on mount */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: slideUp 0.4s ease-out forwards;
 }
 

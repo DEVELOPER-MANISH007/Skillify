@@ -2,17 +2,27 @@ import React from "react";
 import { assets } from "../../assets/assets";
 import { UserButton, useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
 
 const Navbar = () => {
   const { user } = useUser();
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="flex items-center justify-between px-4 md:px-8 border-b border-gray-500 py-3">
+    <div className="flex items-center justify-between px-4 md:px-8 border-b u-border py-3 u-surface">
       <Link to="/">
         <img src={assets.logo} alt="Logo" className="w-28 lg:w-32" />
       </Link>
-      <div className="flex items-center gap-5 text-gray-500 relative">
-        <p>Hi!{" "} {user?user.fullName:'Developers'}</p>
+      <div className="flex items-center gap-3 sm:gap-5 u-muted relative">
+        <p className="hidden sm:block">Hi! {user?user.fullName:'Developers'}</p>
+        <button
+          aria-label="Toggle theme"
+          onClick={toggleTheme}
+          className="inline-flex items-center justify-center w-9 h-9 rounded-full border u-border hover:bg-black/5 dark:hover:bg-white/5 transition"
+          title={theme === 'dark' ? 'Switch to light' : 'Switch to dark'}
+        >
+          <span className="text-lg">{theme === 'dark' ? '☀️' : '🌙'}</span>
+        </button>
         {user? <UserButton/>: <img className="max-w-8 " src={assets.profile_img}/>}
       </div>
     </div>

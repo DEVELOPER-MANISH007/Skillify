@@ -5,6 +5,7 @@ import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 import { AppContext } from "../../context/Appcontext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useTheme } from "../../context/ThemeContext";
 
 const Navbar = () => {
 
@@ -40,11 +41,12 @@ const becomeEducator = async()=>{
   }
 }
 
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <div
       className={`flex items-center justify-between px-4 
-     sm:px-10 md:px-14 lg:px-36 border-b
-      border-gray-500 py-5 ${isCourseListPage ? "bg-white" : "bg-cyan-100/70"}`}
+     sm:px-10 md:px-14 lg:px-36 border-b u-border py-5 u-surface ${isCourseListPage ? "" : "u-glass"}`}
     >
       <img
       onClick={()=>{navigate('/')}}
@@ -52,7 +54,7 @@ const becomeEducator = async()=>{
         alt="logo"
         className="w-28 lg:w-32 cursor-pointer "
       />
-      <div className="hidden md:flex items-center justify-center gap-5 text-gray-600 ">
+      <div className="hidden md:flex items-center justify-center gap-5 u-muted ">
         <div className="flex items-center gap-5">
           {user && (
             <>
@@ -67,14 +69,22 @@ const becomeEducator = async()=>{
         ) : (
           <button
             onClick={() => openSignIn()}
-            className="bg-blue-600 cursor-pointer text-white px-5 py-2 rounded-full"
+            className="u-btn-primary cursor-pointer px-5 py-2 rounded-full shadow-sm hover:opacity-90"
           >
             Create Account
           </button>
         )}
+        <button
+          aria-label="Toggle theme"
+          onClick={toggleTheme}
+          className="ml-2 inline-flex items-center justify-center w-10 h-10 rounded-full border u-border hover:bg-black/5 dark:hover:bg-white/5 transition"
+          title={theme === 'dark' ? 'Switch to light' : 'Switch to dark'}
+        >
+          <span className="text-xl">{theme === 'dark' ? '☀️' : '🌙'}</span>
+        </button>
       </div>
       {/* {for phone screen} */}
-      <div className="md:hidden flex items-center gap-2 text-gray-500 sm:gap-5 ">
+      <div className="md:hidden flex items-center gap-2 u-muted sm:gap-5 ">
         <div className=" flex items-center gap-1 sm:gap-2 max-sm:text-xs" >
         {user && (
             <>
@@ -90,6 +100,14 @@ const becomeEducator = async()=>{
         <img src={assets.user_icon} alt="" />
       </button>
        }
+       <button
+          aria-label="Toggle theme"
+          onClick={toggleTheme}
+          className="inline-flex items-center justify-center w-9 h-9 rounded-full border u-border hover:bg-black/5 dark:hover:bg-white/5 transition"
+          title={theme === 'dark' ? 'Switch to light' : 'Switch to dark'}
+        >
+          <span className="text-lg">{theme === 'dark' ? '☀️' : '🌙'}</span>
+        </button>
       </div>
     </div>
   );
