@@ -109,16 +109,30 @@ export const PurchaseCourse = async (req, res) => {
     ];
 
     // Ensure proper URL format - remove trailing slash and validate
-    let clientUrl = origin;
+    // Priority: Environment variable > origin header > referer header > localhost default
+    let clientUrl = process.env.PUBLIC_CLIENT_URL || origin || req.headers.referer?.split('/').slice(0, 3).join('/');
     if (!clientUrl) {
       clientUrl = 'http://localhost:5173'; // Default for development
     }
     // Remove trailing slash if present
     clientUrl = clientUrl.replace(/\/$/, '');
 
-    const serverUrl = process.env.PUBLIC_SERVER_URL || 'http://localhost:5000';
+    // Server URL - must be set in production via environment variable
+    // Vercel provides VERCEL_URL without protocol, so add https://
+    let serverUrl = process.env.PUBLIC_SERVER_URL;
+    if (!serverUrl) {
+      if (process.env.VERCEL_URL) {
+        serverUrl = `https://${process.env.VERCEL_URL}`;
+      } else {
+        serverUrl = 'http://localhost:5000';
+      }
+    }
+    
+    // Clean server URL
+    const cleanServerUrl = serverUrl.replace(/\/$/, '');
+    
     const session = await stripeInstance.checkout.sessions.create({
-      success_url: `${serverUrl}/api/user/confirm-checkout?session_id={CHECKOUT_SESSION_ID}&redirect=${encodeURIComponent(clientUrl + '/loading/my-enrollments')}`,
+      success_url: `${cleanServerUrl}/api/user/confirm-checkout?session_id={CHECKOUT_SESSION_ID}&redirect=${encodeURIComponent(clientUrl + '/loading/my-enrollments')}`,
       cancel_url: `${clientUrl}/`,
       line_items: line_items,
       mode: 'payment',

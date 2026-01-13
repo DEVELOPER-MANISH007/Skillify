@@ -106,11 +106,11 @@ const enrollCourse = async () => {
 
   return courseData ? (
     <>
-      <div className="flex md:flex-row flex-col gap-10 relative items-start justify-between md:px-36 px-8 md:pt-30 pt-20 text-left">
-        <div className="absolute top-0 left-0 w-full h-scetion-height -z-1 bg-gradient-to-b from-cyan-100/70"></div>
+      <div className="flex md:flex-row flex-col gap-10 relative items-start justify-between md:px-36 px-8 md:pt-24 pt-16 text-left">
+        <div className="absolute top-0 left-0 w-full h-section-height -z-10 bg-gradient-to-br from-blue-50/80 via-cyan-50/80 to-purple-50/80"></div>
         {/* left column  */}
-        <div className="max-w-xl flex-1 z-10 text-gray-500">
-          <h1 className="md:text-course-deatils-heading-large text-course-deatils-heading-small font-semibold text-gray-800">
+        <div className="max-w-xl flex-1 z-10 text-gray-600">
+          <h1 className="md:text-course-deatils-heading-large text-course-deatils-heading-small font-bold text-gray-900 mb-4 leading-tight">
             {courseData?.courseTitle}
           </h1>
           <p
@@ -121,9 +121,9 @@ const enrollCourse = async () => {
           ></p>
           {/* review and ratings */}
 
-          <div className="flex items-center space-x-2 pt-3 pb-1 text-sm ">
-            <p>{calclulaterating(courseData)}</p>
-            <div className="flex">
+          <div className="flex items-center space-x-3 pt-4 pb-2 text-sm">
+            <span className="font-semibold text-gray-900">{calclulaterating(courseData)}</span>
+            <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <img
                   key={i}
@@ -133,35 +133,35 @@ const enrollCourse = async () => {
                       : assets.star_blank
                   }
                   alt=""
-                  className=" w-3.5 h-3.5 "
+                  className="w-4 h-4"
                 />
               ))}
             </div>
-            <p className="text-blue-600 ">
+            <span className="text-blue-600 font-medium">
               ({(courseData?.courseRatings?.length || 0)}
-              {(courseData?.courseRatings?.length || 0) > 1 ? "ratings" : "rating"})
-            </p>
-            <p>
-              {(courseData?.enrolledStudents?.length || 0)}
-              {(courseData?.enrolledStudents?.length || 0) > 1 ? "students" : " student"}
-            </p>
+              {(courseData?.courseRatings?.length || 0) > 1 ? " ratings" : " rating"})
+            </span>
+            <span className="text-gray-500">
+              • {(courseData?.enrolledStudents?.length || 0)}
+              {(courseData?.enrolledStudents?.length || 0) > 1 ? " students" : " student"}
+            </span>
           </div>
 
           <p className="text-sm">
             Course by <span className="text-blue-600">{courseData?.educator?.name}</span>
           </p>
 
-          <div className="pt-8 text-gray-800">
-            <h2 className="text-xl font-semibold">Course Structure</h2>
-            <div className="pt-5">
+          <div className="pt-10 text-gray-800">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Course Structure</h2>
+            <div className="pt-2 space-y-3">
               {Array.isArray(courseData?.courseContent) && courseData.courseContent.map((chapter, index) => (
                 <div
                   key={index}
-                  className="border border-gray-300 bg-white mb-2 rounded"
+                  className="border border-gray-200 bg-white mb-2 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200"
                 >
                   <div
                     onClick={() => toggleSection(index)}
-                    className="flex items-center justify-between px-4 py-3 cursor-pointer select-none"
+                    className="flex items-center justify-between px-5 py-4 cursor-pointer select-none hover:bg-gray-50 transition-colors rounded-xl"
                   >
                     <div className="flex items-center gap-2">
                       <img
@@ -242,7 +242,7 @@ const enrollCourse = async () => {
         </div>
 
         {/* right column */}
-        <div className="max-w-course-card z-10 shadow-custom-card rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[420px] md:self-start">
+        <div className="max-w-course-card z-10 shadow-custom-card rounded-2xl overflow-hidden bg-white min-w-[300px] sm:min-w-[420px] md:self-start sticky top-24">
 
           
               {
@@ -300,7 +300,10 @@ const enrollCourse = async () => {
                 <p>{CalculateNOofLecutres(courseData)}lessons</p>
               </div>
             </div>
-            <button onClick={enrollCourse} className=" md:mt-t mt-4 w-full py-3 rounded bg-blue-600 text-white font-medium">
+            <button 
+              onClick={enrollCourse} 
+              className="mt-6 w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200"
+            >
               {isAlreadyEnrolled ? "Already Enrolled" : "Enroll Now"}
             </button>
             <div className="pt-6">

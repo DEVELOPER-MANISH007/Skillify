@@ -2,30 +2,40 @@ import React from "react";
 import { assets } from "../../assets/assets";
 import { UserButton, useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
-import { useTheme } from "../../context/ThemeContext";
 
 const Navbar = () => {
   const { user } = useUser();
-  const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="flex items-center justify-between px-4 md:px-8 border-b u-border py-3 u-surface">
-      <Link to="/">
-        <img src={assets.logo} alt="Logo" className="w-28 lg:w-32" />
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-4 md:px-6 lg:px-8 border-b border-gray-200/60 py-3 md:py-4 bg-white/98 backdrop-blur-lg shadow-md">
+      <Link to="/" className="group">
+        <img 
+          src={assets.logo} 
+          alt="Skillify Logo" 
+          className="h-12 md:h-14 lg:h-16 w-auto group-hover:scale-105 transition-transform duration-300 object-contain" 
+        />
       </Link>
-      <div className="flex items-center gap-3 sm:gap-5 u-muted relative">
-        <p className="hidden sm:block">Hi! {user?user.fullName:'Developers'}</p>
-        <button
-          aria-label="Toggle theme"
-          onClick={toggleTheme}
-          className="inline-flex items-center justify-center w-9 h-9 rounded-full border u-border hover:bg-black/5 dark:hover:bg-white/5 transition"
-          title={theme === 'dark' ? 'Switch to light' : 'Switch to dark'}
-        >
-          <span className="text-lg">{theme === 'dark' ? '☀️' : '🌙'}</span>
-        </button>
-        {user? <UserButton/>: <img className="max-w-8 " src={assets.profile_img}/>}
+      <div className="flex items-center gap-3 sm:gap-4 lg:gap-5">
+        <div className="hidden sm:flex items-center gap-3 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 border border-gray-200/50">
+          <p className="text-sm md:text-base font-medium text-gray-700">
+            Hi! <span className="font-semibold text-gray-900">{user ? user.fullName : 'Developers'}</span>
+          </p>
+        </div>
+        {user ? (
+          <div className="flex items-center">
+            <UserButton />
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200/50">
+            <img 
+              className="w-8 h-8 rounded-full ring-2 ring-gray-200" 
+              src={assets.profile_img} 
+              alt="Profile" 
+            />
+          </div>
+        )}
       </div>
-    </div>
+    </nav>
   );
 };
 
