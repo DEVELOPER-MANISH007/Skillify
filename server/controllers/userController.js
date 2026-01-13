@@ -132,7 +132,7 @@ export const PurchaseCourse = async (req, res) => {
     const cleanServerUrl = serverUrl.replace(/\/$/, '');
     
     const session = await stripeInstance.checkout.sessions.create({
-      success_url: `${cleanServerUrl}/api/user/confirm-checkout?session_id={CHECKOUT_SESSION_ID}&redirect=${encodeURIComponent(clientUrl + '/loading/my-enrollments')}`,
+      success_url: `${clientUrl}/my-enrollments`,
       cancel_url: `${clientUrl}/`,
       line_items: line_items,
       mode: 'payment',
@@ -149,61 +149,6 @@ export const PurchaseCourse = async (req, res) => {
   }
 };
 
-//todo ----------------------------------------------------------------------------------------------------->
-// ye strripe kaam nahi kr rha to isliye use kiya hai mene baad me isko remove krke stirpe check krna hai
-//  or isko remove kr dena hai pusblisble key or account dobarra banana hai stipe ka or ye remove krna hai
-//* ---------------------------------------------------------------------------------------------------->
-// Confirm checkout without relying on webhooks
-export const confirmCheckout = async (req, res) => {
-  try {
-    const { session_id, redirect } = req.query;
-    if (!session_id) {
-      return res.status(400).json({ success: false, message: 'Missing session_id' });
-    }
-    const stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY);
-    const session = await stripeInstance.checkout.sessions.retrieve(session_id);
-    const { purchaseId } = session?.metadata || {};
-    if (!purchaseId) {
-      return res.status(400).json({ success: false, message: 'Missing purchaseId in session' });
-    }
-
-    const purchaseData = await Purchase.findById(purchaseId);
-    if (!purchaseData) {
-      return res.status(404).json({ success: false, message: 'Purchase not found' });
-    }
-    if (purchaseData.status !== 'completed' && session.payment_status === 'paid') {
-      const userData = await UserModel.findById(purchaseData.userId);
-      const courseData = await Course.findById(purchaseData.courseId.toString());
-      if (userData && courseData) {
-        if (!courseData.enrolledStudents.some(id => id.toString() === userData._id.toString())) {
-          courseData.enrolledStudents.push(userData._id);
-          await courseData.save();
-        }
-        if (!userData.enrolledCourses.some(id => id.toString() === courseData._id.toString())) {
-          userData.enrolledCourses.push(courseData._id);
-          await userData.save();
-        }
-      }
-      purchaseData.status = 'completed';
-      await purchaseData.save();
-    }
-
-    const redirectUrl = redirect || (process.env.PUBLIC_CLIENT_URL || 'http://localhost:5173') + '/loading/my-enrollments';
-    res.redirect(302, redirectUrl);
-  } catch (error) {
-    // If redirect is provided, fail-soft by redirecting
-    const redirectUrl = req.query?.redirect || (process.env.PUBLIC_CLIENT_URL || 'http://localhost:5173');
-    try {
-      return res.redirect(302, redirectUrl);
-    } catch (_) {
-      return res.status(500).json({ success: false, message: error.message });
-    }
-  }
-}
-//todo ----------------------------------------------------------------------------------------------------->
-// ye strripe kaam nahi kr rha to isliye use kiya hai mene baad me isko remove krke stirpe check krna hai
-//  or isko remove kr dena hai pusblisble key or account dobarra banana hai stipe ka or ye remove krna hai
-//* ---------------------------------------------------------------------------------------------------->
 
 
 //*Update User Course Progress
